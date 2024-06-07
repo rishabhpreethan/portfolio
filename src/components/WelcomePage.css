@@ -1,0 +1,15 @@
+/* App.css */
+@font-face {
+    font-family: 'Agres';
+    src: url('/fonts/Agres-Regular.woff2') format('woff2'),
+         url('/fonts/Agres-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Agres', sans-serif;
+    line-height: 30; /* Adjust the value to increase or decrease the font height */
+}

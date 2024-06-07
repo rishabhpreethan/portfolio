@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&display=swap');
+
+.landing-page {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 100vh;
+  background-color: #000;
+  padding-top: 10px; /* Added margin on top */
+}
+
+.typing-container {
+  font-family: 'DM Mono', monospace;
+  font-weight: 400;
+  font-size: 16px;
+  color: white;
+  position: relative;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.cursor {
+  font-weight: bold;
+  display: inline-block;
+  width: 8px; /* Thicker cursor */
+  height: 20px; /* Adjust height to match text */
+  background-color: white;
+  animation: blink 0.7s steps(1) infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
