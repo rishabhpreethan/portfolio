@@ -27,12 +27,16 @@ const LandingPage = () => {
               circleRef.current.style.display = 'none';
             }
             if (textContainerRef.current) {
+              gsap.set(textContainerRef.current, {
+                position: 'fixed',
+                left: textContainerRef.current.offsetLeft, // Capture current left offset
+                xPercent: 0, // Ensure no horizontal translation
+              });
               gsap.to(textContainerRef.current, {
                 duration: 1.5,
-                ease: "slow",
+                ease: 'slow',
+                left: '47.25%',
                 xPercent: -50,
-                left: '47%',
-                position: 'fixed',
               });
             }
           }
@@ -45,7 +49,7 @@ const LandingPage = () => {
       repeat: -1,
       yoyo: true,
       duration: 0.7,
-      ease: "steps(1)"
+      ease: 'steps(1)'
     });
 
     return () => clearInterval(interval);
@@ -77,10 +81,10 @@ const typingContainerStyle: React.CSSProperties = {
   fontWeight: 400,
   fontSize: '16px',
   color: 'white',
-  position: 'relative',
+  position: 'relative', // Initially relative
   whiteSpace: 'nowrap',
   overflow: 'hidden',
-  marginLeft: '50px', // Added left margin
+  marginLeft: '50px', // Initial left margin
 };
 
 const circleStyle: React.CSSProperties = {
