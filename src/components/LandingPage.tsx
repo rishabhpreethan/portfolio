@@ -3,18 +3,24 @@ import { gsap } from 'gsap';
 
 const LandingPage = () => {
   const textContainerRef = useRef<HTMLDivElement | null>(null);
-  const textRef = useRef<HTMLSpanElement | null>(null);
+  const welcomeTextRef = useRef<HTMLSpanElement | null>(null);
+  const portfolioTextRef = useRef<HTMLSpanElement | null>(null);
   const cursorRef = useRef<HTMLSpanElement | null>(null);
   const circleRef = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
-    const text = 'WELCOME — PORTFOLIO 2024';
-    let textIndex = 0;
+    const welcomeText = "RISHABH PREETHAN'S ";
+    const portfolioText = 'PORTFOLIO 2024';
+    let welcomeIndex = 0;
+    let portfolioIndex = 0;
     const interval = setInterval(() => {
-      if (textRef.current && textIndex < text.length) {
-        textRef.current.innerHTML += text[textIndex];
-        textIndex++;
-      } else if (textRef.current) {
+      if (welcomeTextRef.current && welcomeIndex < welcomeText.length) {
+        welcomeTextRef.current.innerHTML += welcomeText[welcomeIndex];
+        welcomeIndex++;
+      } else if (portfolioTextRef.current && portfolioIndex < portfolioText.length) {
+        portfolioTextRef.current.innerHTML += portfolioText[portfolioIndex];
+        portfolioIndex++;
+      } else {
         clearInterval(interval);
         gsap.to([cursorRef.current, circleRef.current], {
           opacity: 0,
@@ -35,8 +41,29 @@ const LandingPage = () => {
               gsap.to(textContainerRef.current, {
                 duration: 1.5,
                 ease: 'slow',
-                left: '47.25%',
+                left: '47.5%',
                 xPercent: -50,
+                onComplete: () => {
+                  // Roll down animation for changing text
+                  const tl = gsap.timeline();
+                  tl.to(welcomeTextRef.current, {
+                    y: 20,
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: 'power2.in',
+                    onComplete: () => {
+                      if (welcomeTextRef.current) {
+                        welcomeTextRef.current.innerHTML = "WELCOME - ";
+                      }
+                    }
+                  });
+                  tl.to(welcomeTextRef.current, {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.5,
+                    ease: 'power2.out',
+                  });
+                }
               });
             }
           }
@@ -59,7 +86,8 @@ const LandingPage = () => {
     <div className="landing-page" style={landingPageStyle}>
       <div ref={textContainerRef} className="typing-container" style={typingContainerStyle}>
         <span ref={circleRef} style={circleStyle}></span>
-        <span ref={textRef}></span>
+        <span ref={welcomeTextRef}></span>
+        <span ref={portfolioTextRef}></span>
         <span ref={cursorRef} style={cursorStyle}>|</span>
       </div>
     </div>
