@@ -1,7 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import Name from './Name';
 
 const LandingPage = () => {
+  const [showName, setShowName] = useState(false); // State to control rendering of Name component
   const textContainerRef = useRef<HTMLDivElement | null>(null);
   const welcomeTextRef = useRef<HTMLSpanElement | null>(null);
   const portfolioTextRef = useRef<HTMLSpanElement | null>(null);
@@ -41,7 +43,7 @@ const LandingPage = () => {
               gsap.to(textContainerRef.current, {
                 duration: 1.5,
                 ease: 'slow',
-                left: '47.5%',
+                left: '47.25%',
                 xPercent: -50,
                 onComplete: () => {
                   // Roll down animation for changing text
@@ -55,6 +57,7 @@ const LandingPage = () => {
                       if (welcomeTextRef.current) {
                         welcomeTextRef.current.innerHTML = "WELCOME - ";
                       }
+                      setShowName(true); // Set showName to true after welcome text animation completes
                     }
                   });
                   tl.to(welcomeTextRef.current, {
@@ -90,6 +93,11 @@ const LandingPage = () => {
         <span ref={portfolioTextRef}></span>
         <span ref={cursorRef} style={cursorStyle}>|</span>
       </div>
+      {showName && ( // Render Name component only when showName is true
+        <div style={centeredStyle}>
+          <Name />
+        </div>
+      )}
     </div>
   );
 };
@@ -104,12 +112,20 @@ const landingPageStyle: React.CSSProperties = {
   paddingTop: '40px', // Adjusted padding to push the whole thing down
 };
 
+const centeredStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  };
+
 const typingContainerStyle: React.CSSProperties = {
   fontFamily: 'DM Mono, monospace',
-  fontWeight: 400,
+  fontWeight: 'lighter',
   fontSize: '16px',
   color: 'white',
-  position: 'relative', // Initially relative
+  position: 'absolute', // Initially relative
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   marginLeft: '50px', // Initial left margin
