@@ -29,6 +29,9 @@ const cornerTextStyle: React.CSSProperties = {
   position: 'absolute',
   whiteSpace: 'nowrap',
   opacity: 0, // Set initial opacity to 0
+  marginLeft: '50px', // Same left margin as the welcome text
+  marginRight: '50px', // Same right margin as the welcome text
+  fontWeight: 'normal', // Ensure corner texts are not bold
 };
 
 const sequentialFlicker = (leftElement: HTMLElement, rightElement: HTMLElement) => {
@@ -131,16 +134,16 @@ const Test: React.FC = () => {
           <span key={index}>{letter}</span>
         ))}
       </div>
-      <div ref={topLeftTextRef} style={{ ...cornerTextStyle, top: '10px', left: '10px' }}>
+      <div ref={topLeftTextRef} style={{ ...cornerTextStyle, top: '40px', left: '10px' }}>
         Top Left Corner
       </div>
-      <div ref={topRightTextRef} style={{ ...cornerTextStyle, top: '10px', right: '10px' }}>
+      <div ref={topRightTextRef} style={{ ...cornerTextStyle, top: '40px', right: '10px' }}>
         Top Right Corner
       </div>
-      <div ref={bottomLeftTextRef} style={{ ...cornerTextStyle, bottom: '10px', left: '10px' }}>
+      <div ref={bottomLeftTextRef} style={{ ...cornerTextStyle, bottom: '40px', left: '10px' }}>
         Bottom Left Corner
       </div>
-      <div ref={bottomRightTextRef} style={{ ...cornerTextStyle, bottom: '10px', right: '10px' }}>
+      <div ref={bottomRightTextRef} style={{ ...cornerTextStyle, bottom: '40px', right: '10px' }}>
         Bottom Right Corner
       </div>
     </div>
