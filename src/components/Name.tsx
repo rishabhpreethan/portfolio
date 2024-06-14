@@ -10,7 +10,7 @@ const containerStyle: React.CSSProperties = {
   backgroundColor: 'black',
   fontFamily: 'DM Sans, sans-serif',
   color: 'white',
-  fontWeight: 'bold',
+  fontWeight: 'bolder',
 };
 
 const textStyle: React.CSSProperties = {
@@ -23,7 +23,7 @@ const textStyle: React.CSSProperties = {
 const randomFlicker = (element: HTMLElement) => {
   const tl = gsap.timeline({ repeat: -1 });
   tl.to(element, {
-    opacity: 0.4,
+    opacity: 0.5,
     duration: Math.random() * 0.1 + 0.05, // Random duration between 0.05 and 0.15 seconds
     ease: 'power1.inOut',
   });

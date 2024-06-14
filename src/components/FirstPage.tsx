@@ -1,9 +1,112 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import Name from './Name';
-import Test from './Test'
 
-const LandingPage = () => {
+const containerStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '100vh',
+  backgroundColor: 'black',
+  fontFamily: 'DM Sans, sans-serif',
+  color: 'white',
+  fontWeight: 'bold',
+};
+
+const textStyle: React.CSSProperties = {
+  fontSize: '170px', // Increased font size
+  position: 'relative',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  opacity: 0, // Set initial opacity to 0
+  marginTop: '-20px'
+};
+
+const sequentialFlicker = (leftElement: HTMLElement, rightElement: HTMLElement) => {
+  const leftLetters = Array.from(leftElement.children);
+  const rightLetters = Array.from(rightElement.children);
+  const maxLength = Math.max(leftLetters.length, rightLetters.length);
+  const tl = gsap.timeline({ repeat: -1, repeatDelay: -0.3 });
+
+  for (let i = 0; i < maxLength; i++) {
+    if (leftLetters[i]) {
+      tl.to(leftLetters[i], {
+        opacity: 0.4,
+        duration: 0.7,
+        ease: 'power1.inOut',
+      }, i * 0.2)
+        .to(leftLetters[i], {
+          opacity: 1,
+          duration: 0.7,
+          ease: 'power1.inOut',
+        }, i * 0.2 + 0.35);
+    }
+
+    if (rightLetters[i]) {
+      tl.to(rightLetters[i], {
+        opacity: 0.4,
+        duration: 0.7,
+        ease: 'power1.inOut',
+      }, i * 0.2)
+        .to(rightLetters[i], {
+          opacity: 1,
+          duration: 0.7,
+          ease: 'power1.inOut',
+        }, i * 0.2 + 0.35);
+    }
+  }
+};
+
+const Test: React.FC = () => {
+  const leftTextRef = useRef<HTMLDivElement>(null);
+  const rightTextRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const leftText = leftTextRef.current;
+    const rightText = rightTextRef.current;
+
+    if (leftText && rightText) {
+      gsap.set([leftText, rightText], { opacity: 1 }); // Set opacity to 1 before starting the animation
+      gsap.fromTo(leftText, { x: '-50%', opacity: 0 }, { x: '0%', opacity: 1, duration: 2.5, ease: 'power4.out' });
+      gsap.fromTo(rightText, { x: '50%', opacity: 0 }, { x: '0%', opacity: 1, duration: 2.5, ease: 'power4.out' });
+
+      // Apply sequential flicker effect to each letter
+      sequentialFlicker(leftText, rightText);
+    }
+
+    return () => {
+      if (leftText) {
+        gsap.killTweensOf(leftText);
+        Array.from(leftText.children).forEach((letter) => {
+          gsap.killTweensOf(letter);
+        });
+      }
+      if (rightText) {
+        gsap.killTweensOf(rightText);
+        Array.from(rightText.children).forEach((letter) => {
+          gsap.killTweensOf(letter);
+        });
+      }
+    };
+  }, []);
+
+  return (
+    <div style={containerStyle}>
+      <div ref={leftTextRef} style={textStyle}>
+        {Array.from('Rishabh').map((letter, index) => (
+          <span key={index}>{letter}</span>
+        ))}
+      </div>
+      <div ref={rightTextRef} style={textStyle}>
+        {Array.from('Preethan').map((letter, index) => (
+          <span key={index}>{letter}</span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const FirstPage = () => {
   const [showName, setShowName] = useState(false); // State to control rendering of Name component
   const textContainerRef = useRef<HTMLDivElement | null>(null);
   const welcomeTextRef = useRef<HTMLSpanElement | null>(null);
@@ -42,8 +145,8 @@ const LandingPage = () => {
                 xPercent: 0, // Ensure no horizontal translation
               });
               gsap.to(textContainerRef.current, {
-                duration: 1.5,
-                ease: 'power4.in',
+                duration: 2,
+                ease: 'power4',
                 left: '47.25%',
                 xPercent: -50,
                 onComplete: () => {
@@ -73,7 +176,7 @@ const LandingPage = () => {
           }
         });
       }
-    }, 100);
+    }, 75);
 
     gsap.to(cursorRef.current, {
       opacity: 0,
@@ -87,7 +190,7 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="landing-page" style={landingPageStyle}>
+    <div className="first-page" style={landingPageStyle}>
       <div ref={textContainerRef} className="typing-container" style={typingContainerStyle}>
         <span ref={circleRef} style={circleStyle}></span>
         <span ref={welcomeTextRef}></span>
@@ -107,7 +210,7 @@ const landingPageStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'flex-start',
   justifyContent: 'flex-start',
-  height: '100vh',
+  height: '90vh',
   backgroundColor: '#000',
   padding: '10px',
   paddingTop: '40px', // Adjusted padding to push the whole thing down
@@ -150,4 +253,4 @@ const cursorStyle: React.CSSProperties = {
   backgroundColor: 'white'
 };
 
-export default LandingPage;
+export default FirstPage;
