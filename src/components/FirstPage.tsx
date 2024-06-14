@@ -67,8 +67,8 @@ const Test: React.FC = () => {
 
     if (leftText && rightText) {
       gsap.set([leftText, rightText], { opacity: 1 }); // Set opacity to 1 before starting the animation
-      gsap.fromTo(leftText, { x: '-50%', opacity: 0 }, { x: '0%', opacity: 1, duration: 2.5, ease: 'power4.out' });
-      gsap.fromTo(rightText, { x: '50%', opacity: 0 }, { x: '0%', opacity: 1, duration: 2.5, ease: 'power4.out' });
+      gsap.fromTo(leftText, { x: '-50%', opacity: 0 }, { x: '0%', opacity: 1, duration: 3, ease: 'power4.out' });
+      gsap.fromTo(rightText, { x: '50%', opacity: 0 }, { x: '0%', opacity: 1, duration: 3, ease: 'power4.out' });
 
       // Apply sequential flicker effect to each letter
       sequentialFlicker(leftText, rightText);
