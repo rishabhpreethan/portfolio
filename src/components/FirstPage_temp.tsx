@@ -14,11 +14,11 @@ const containerStyle: React.CSSProperties = {
 };
 
 const textStyle: React.CSSProperties = {
-  fontSize: '170px', // Increased font size
+  fontSize: '170px',
   position: 'relative',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
-  opacity: 0, // Set initial opacity to 0
+  opacity: 0,
   marginTop: '-20px'
 };
 
@@ -28,10 +28,10 @@ const cornerTextStyle: React.CSSProperties = {
   color: 'white',
   position: 'absolute',
   whiteSpace: 'nowrap',
-  opacity: 0, // Set initial opacity to 0
-  marginLeft: '50px', // Same left margin as the welcome text
-  marginRight: '50px', // Same right margin as the welcome text
-  fontWeight: 'normal', // Ensure corner texts are not bold
+  opacity: 0,
+  marginLeft: '50px',
+  marginRight: '50px',
+  fontWeight: 'normal',
 };
 
 const sequentialFlicker = (leftElement: HTMLElement, rightElement: HTMLElement) => {
@@ -98,7 +98,7 @@ const Test: React.FC = () => {
       if (element) {
         // Hide scroll bars
         document.body.style.overflow = 'hidden';
-    
+
         gsap.set(element, { opacity: 1 }); // Set opacity to 1 before starting the animation
         gsap.fromTo(element, { x: fromX, opacity: 0 }, { x: toX, opacity: 1, duration: 2, ease: 'power4', delay: 1.5, onComplete: () => {
           // Show scroll bars after animation
@@ -163,78 +163,85 @@ const FirstPage = () => {
   const portfolioTextRef = useRef<HTMLSpanElement | null>(null);
   const cursorRef = useRef<HTMLSpanElement | null>(null);
   const circleRef = useRef<HTMLSpanElement | null>(null);
+  let interval: number; // Declare interval here
 
   useEffect(() => {
     const welcomeText = "RISHABH'S ";
     const portfolioText = 'PORTFOLIO 2024';
     let welcomeIndex = 0;
     let portfolioIndex = 0;
-    const interval = setInterval(() => {
-      if (welcomeTextRef.current && welcomeIndex < welcomeText.length) {
-        welcomeTextRef.current.innerHTML += welcomeText[welcomeIndex];
-        welcomeIndex++;
-      } else if (portfolioTextRef.current && portfolioIndex < portfolioText.length) {
-        portfolioTextRef.current.innerHTML += portfolioText[portfolioIndex];
-        portfolioIndex++;
-      } else {
-        clearInterval(interval);
-        gsap.to([cursorRef.current, circleRef.current], {
-          opacity: 0,
-          duration: 0.5,
-          onComplete: () => {
-            if (cursorRef.current) {
-              cursorRef.current.style.display = 'none';
-            }
-            if (circleRef.current) {
-              circleRef.current.style.display = 'none';
-            }
-            if (textContainerRef.current) {
-              gsap.set(textContainerRef.current, {
-                position: 'fixed',
-                left: textContainerRef.current.offsetLeft, // Capture current left offset
-                xPercent: 0, // Ensure no horizontal translation
-              });
-              gsap.to(textContainerRef.current, {
-                duration: 2,
-                ease: 'power4',
-                left: '47.25%',
-                xPercent: -50,
-                onComplete: () => {
-                  // Roll down animation for changing text
-                  const tl = gsap.timeline();
-                  tl.to(welcomeTextRef.current, {
-                    y: 20,
-                    opacity: 0,
-                    duration: 0.5,
-                    ease: 'power2.in',
+
+    const startTypingAnimation = () => {
+      interval = setInterval(() => {
+        if (welcomeTextRef.current && welcomeIndex < welcomeText.length) {
+          welcomeTextRef.current.innerHTML += welcomeText[welcomeIndex];
+          welcomeIndex++;
+        } else if (portfolioTextRef.current && portfolioIndex < portfolioText.length) {
+          portfolioTextRef.current.innerHTML += portfolioText[portfolioIndex];
+          portfolioIndex++;
+        } else {
+          clearInterval(interval);
+          gsap.to([cursorRef.current, circleRef.current], {
+            opacity: 0,
+            duration: 0.5,
+            onComplete: () => {
+              if (cursorRef.current) {
+                cursorRef.current.style.display = 'none';
+              }
+              if (circleRef.current) {
+                circleRef.current.style.visibility = 'hidden'; // Make the circle invisible but keep its space
+              }
+              setTimeout(() => { // Wait for 0.5 seconds before moving the text
+                if (textContainerRef.current) {
+                  gsap.set(textContainerRef.current, {
+                    position: 'fixed',
+                    left: textContainerRef.current.offsetLeft, // Capture current left offset
+                    xPercent: 0, // Ensure no horizontal translation
+                  });
+                  gsap.to(textContainerRef.current, {
+                    duration: 2,
+                    ease: 'power4',
+                    left: '47.25%',
+                    xPercent: -50,
                     onComplete: () => {
-                      if (welcomeTextRef.current) {
-                        welcomeTextRef.current.innerHTML = "WELCOME - ";
-                      }
-                      setShowName(true); // Set showName to true after welcome text animation completes
+                      const tl = gsap.timeline();
+                      tl.to(welcomeTextRef.current, {
+                        y: 20,
+                        opacity: 0,
+                        duration: 0.5,
+                        ease: 'power2.in',
+                        onComplete: () => {
+                          if (welcomeTextRef.current) {
+                            welcomeTextRef.current.innerHTML = "WELCOME - ";
+                          }
+                          setShowName(true); // Set showName to true after welcome text animation completes
+                        }
+                      });
+                      tl.to(welcomeTextRef.current, {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.5,
+                        ease: 'power2.out',
+                      });
                     }
                   });
-                  tl.to(welcomeTextRef.current, {
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.5,
-                    ease: 'power2.out',
-                  });
                 }
-              });
+              }, 500);
             }
-          }
-        });
-      }
-    }, 75);
+          });
+        }
+      }, 75);
 
-    gsap.to(cursorRef.current, {
-      opacity: 0,
-      repeat: -1,
-      yoyo: true,
-      duration: 0.7,
-      ease: 'steps(1)'
-    });
+      gsap.to(cursorRef.current, {
+        opacity: 0,
+        repeat: -1,
+        yoyo: true,
+        duration: 0.4,
+        ease: 'steps(1)'
+      });
+    };
+
+    setTimeout(startTypingAnimation, 1500); // Start typing animation after 1.5 seconds
 
     return () => clearInterval(interval);
   }, []);
