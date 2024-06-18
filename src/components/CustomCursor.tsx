@@ -62,13 +62,13 @@ style.innerHTML = `
     will-change: transform;
   }
   .cursor-inner {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     background-color: white;
   }
   .cursor-outer {
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     border: 2px solid white;
     opacity: 0.5;
   }
