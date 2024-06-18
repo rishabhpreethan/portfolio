@@ -201,7 +201,7 @@ const FirstPage = () => {
                   gsap.to(textContainerRef.current, {
                     duration: 2,
                     ease: 'power4',
-                    left: '47.25%',
+                    left: '46.75%',
                     xPercent: -50,
                     onComplete: () => {
                       const tl = gsap.timeline();
