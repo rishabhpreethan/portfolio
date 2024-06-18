@@ -87,8 +87,8 @@ const Test: React.FC = () => {
 
     if (leftText && rightText) {
       gsap.set([leftText, rightText], { opacity: 1 }); // Set opacity to 1 before starting the animation
-      gsap.fromTo(leftText, { x: '-50%', opacity: 0 }, { x: '0%', opacity: 1, duration: 3, ease: 'power4.out' });
-      gsap.fromTo(rightText, { x: '50%', opacity: 0 }, { x: '0%', opacity: 1, duration: 3, ease: 'power4.out' });
+      gsap.fromTo(leftText, { x: '-50%', opacity: 0 }, { x: '0%', opacity: 1, duration: 4, ease: 'power4.out' });
+      gsap.fromTo(rightText, { x: '50%', opacity: 0 }, { x: '0%', opacity: 1, duration: 4, ease: 'power4.out' });
 
       // Apply sequential flicker effect to each letter
       sequentialFlicker(leftText, rightText);
@@ -96,8 +96,14 @@ const Test: React.FC = () => {
 
     const animateCornerText = (element: HTMLElement, fromX: string, toX: string) => {
       if (element) {
+        // Hide scroll bars
+        document.body.style.overflow = 'hidden';
+    
         gsap.set(element, { opacity: 1 }); // Set opacity to 1 before starting the animation
-        gsap.fromTo(element, { x: fromX, opacity: 0 }, { x: toX, opacity: 1, duration: 3, ease: 'power4.out' });
+        gsap.fromTo(element, { x: fromX, opacity: 0 }, { x: toX, opacity: 1, duration: 2, ease: 'power4', delay: 1.5, onComplete: () => {
+          // Show scroll bars after animation
+          document.body.style.overflow = 'auto';
+        } });
       }
     };
 
@@ -140,10 +146,10 @@ const Test: React.FC = () => {
       <div ref={topRightTextRef} style={{ ...cornerTextStyle, top: '40px', right: '10px' }}>
         Top Right Corner
       </div>
-      <div ref={bottomLeftTextRef} style={{ ...cornerTextStyle, bottom: '40px', left: '10px' }}>
+      <div ref={bottomLeftTextRef} style={{ ...cornerTextStyle, bottom: '55px', left: '10px' }}>
         Bottom Left Corner
       </div>
-      <div ref={bottomRightTextRef} style={{ ...cornerTextStyle, bottom: '40px', right: '10px' }}>
+      <div ref={bottomRightTextRef} style={{ ...cornerTextStyle, bottom: '55px', right: '10px' }}>
         Bottom Right Corner
       </div>
     </div>
