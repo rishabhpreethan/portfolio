@@ -8,7 +8,7 @@ const MenuBar: React.FC = () => {
     const menuBar = menuBarRef.current;
 
     if (menuBar) {
-      gsap.to(menuBar, { opacity: 1, duration: 2, delay: 0.35 });
+      gsap.to(menuBar, { opacity: 1, duration: 2, delay: 0.2 });
     }
   }, []);
 
