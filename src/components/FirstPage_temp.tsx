@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import MenuBar from './MenuBar'; // Import the MenuBar component
 
 const containerStyle: React.CSSProperties = {
   display: 'flex',
@@ -76,6 +77,8 @@ const Test: React.FC = () => {
   const topRightTextRef = useRef<HTMLDivElement>(null);
   const bottomLeftTextRef = useRef<HTMLDivElement>(null);
   const bottomRightTextRef = useRef<HTMLDivElement>(null);
+  const [showMenuBar, setShowMenuBar] = useState(false); // State to control rendering of MenuBar
+
 
   useEffect(() => {
     const leftText = leftTextRef.current;
@@ -94,23 +97,23 @@ const Test: React.FC = () => {
       sequentialFlicker(leftText, rightText);
     }
 
-    const animateCornerText = (element: HTMLElement, fromX: string, toX: string) => {
+    const animateCornerText = (element: HTMLElement, fromX: string, toX: string, onStart: () => void) => {
       if (element) {
         // Hide scroll bars
         document.body.style.overflow = 'hidden';
-
+  
         gsap.set(element, { opacity: 1 }); // Set opacity to 1 before starting the animation
-        gsap.fromTo(element, { x: fromX, opacity: 0 }, { x: toX, opacity: 1, duration: 2, ease: 'power4', delay: 1.5, onComplete: () => {
+        gsap.fromTo(element, { x: fromX, opacity: 0 }, { x: toX, opacity: 1, duration: 2, ease: 'power4', onStart: onStart, onComplete: () => {
           // Show scroll bars after animation
           document.body.style.overflow = 'auto';
         } });
       }
     };
 
-    animateCornerText(topLeftText!, '-50%', '0%');
-    animateCornerText(topRightText!, '50%', '0%');
-    animateCornerText(bottomLeftText!, '-50%', '0%');
-    animateCornerText(bottomRightText!, '50%', '0%');
+    animateCornerText(topLeftText!, '-50%', '0%', () => setShowMenuBar(true));
+    animateCornerText(topRightText!, '50%', '0%', () => setShowMenuBar(true));
+    animateCornerText(bottomLeftText!, '-50%', '0%', () => setShowMenuBar(true));
+    animateCornerText(bottomRightText!, '50%', '0%', () => setShowMenuBar(true));
 
     return () => {
       if (leftText) {
@@ -146,6 +149,7 @@ const Test: React.FC = () => {
       <div ref={topRightTextRef} style={{ ...cornerTextStyle, top: '40px', right: '10px' }}>
         Top Right Corner
       </div>
+      {showMenuBar && <MenuBar />}
       <div ref={bottomLeftTextRef} style={{ ...cornerTextStyle, bottom: '55px', left: '10px' }}>
         Bottom Left Corner
       </div>
