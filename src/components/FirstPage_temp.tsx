@@ -103,7 +103,7 @@ const Test: React.FC = () => {
         document.body.style.overflow = 'hidden';
   
         gsap.set(element, { opacity: 1 }); // Set opacity to 1 before starting the animation
-        gsap.fromTo(element, { x: fromX, opacity: 0 }, { x: toX, opacity: 1, duration: 2, delay: 1.5, ease: 'power4', onStart: onStart, onComplete: () => {
+        gsap.fromTo(element, { x: fromX, opacity: 0 }, { x: toX, opacity: 1, duration: 3, delay: 1.5, ease: 'power4', onStart: onStart, onComplete: () => {
           // Show scroll bars after animation
           document.body.style.overflow = 'auto';
         } });
