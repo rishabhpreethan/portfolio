@@ -12,13 +12,66 @@ const MenuBar: React.FC = () => {
     }
   }, []);
 
+  const menuButtonStyle: React.CSSProperties = {
+    backgroundColor: 'black',
+    borderColor: 'rgba(128, 128, 128, 0.5)',
+    color: 'white',
+    border: '1px solid rgba(128, 128, 128, 0.5)',
+    padding: '8px 16px',
+    fontSize: '14px',
+    borderRadius: '20px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s, box-shadow 0.3s',
+    margin: '0 10px',
+    fontFamily: "'DM Mono', monospace",
+    boxShadow: '0 0 0 white',
+  };
+
+  const handleMouseEnter = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.currentTarget.style.boxShadow = '0 0 0 1px #00ff00';
+  };  
+
+  const handleMouseLeave = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.currentTarget.style.boxShadow = '0 0 0 white';
+  };
+
   return (
     <div ref={menuBarRef} style={{ ...menuBarStyle, opacity: 0 }}>
-      <button style={menuButtonStyle}>Home</button>
-      <button style={menuButtonStyle}>Education</button>
-      <button style={menuButtonStyle}>Experience</button>
-      <button style={menuButtonStyle}>Projects</button>
-      <button style={menuButtonStyle}>About Me</button>
+      <button
+        style={menuButtonStyle}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        Home
+      </button>
+      <button
+        style={menuButtonStyle}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        Education
+      </button>
+      <button
+        style={menuButtonStyle}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        Experience
+      </button>
+      <button
+        style={menuButtonStyle}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        Projects
+      </button>
+      <button
+        style={menuButtonStyle}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        About Me
+      </button>
     </div>
   );
 };
@@ -28,28 +81,14 @@ const menuBarStyle: React.CSSProperties = {
   bottom: '40px',
   left: '50%',
   transform: 'translateX(-50%)',
-  backgroundColor: 'black', // Black background
-  padding: '12px 30px', // Original padding for bar
-  borderRadius: '50px', // Fully rounded edges
+  backgroundColor: 'black',
+  padding: '10px 20px',
+  borderRadius: '50px',
   display: 'flex',
   justifyContent: 'space-around',
-  boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
-  border: '1px solid rgba(255, 255, 255, 0.2)', // Light border for glass effect
-  fontFamily: "'DM Mono', monospace", // DM Mono font style
-};
-
-const menuButtonStyle: React.CSSProperties = {
-  backgroundColor: 'black', // Black background for buttons
-  borderColor: 'rgba(128, 128, 128, 0.5)', // Grey border
-  color: 'white',
-  border: '1px solid rgba(128, 128, 128, 0.5)', // Grey border for buttons
-  padding: '8px 16px', // Original padding
-  fontSize: '14px', // Original font size
-  borderRadius: '20px', // Rounded edges for buttons
-  cursor: 'pointer',
-  transition: 'background-color 0.3s',
-  margin: '0 10px', // Original space between buttons
-  fontFamily: "'DM Mono', monospace", // DM Mono font style
+  boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
+  fontFamily: "'DM Mono', monospace",
 };
 
 export default MenuBar;
