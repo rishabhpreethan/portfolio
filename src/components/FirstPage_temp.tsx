@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import MenuBar from './MenuBar'; // Import the MenuBar component
+import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 
 const containerStyle: React.CSSProperties = {
   display: 'flex',
@@ -33,6 +34,20 @@ const cornerTextStyle: React.CSSProperties = {
   marginLeft: '50px',
   marginRight: '50px',
   fontWeight: 'normal',
+};
+
+const menuButtonStyle: React.CSSProperties = {
+  backgroundColor: 'black', // Black background for buttons
+  borderColor: 'rgba(128, 128, 128, 0.5)', // Grey border
+  color: 'white',
+  border: '2px solid rgba(128, 128, 128, 0.5)', // Grey border for buttons
+  padding: '8px 16px', // Original padding
+  fontSize: '14px', // Original font size
+  borderRadius: '20px', // Rounded edges for buttons
+  cursor: 'pointer',
+  transition: 'background-color 0.3s',
+  margin: '0 10px', // Original space between buttons
+  fontFamily: "'DM Mono', monospace", // DM Mono font style
 };
 
 const sequentialFlicker = (leftElement: HTMLElement, rightElement: HTMLElement) => {
@@ -78,7 +93,19 @@ const Test: React.FC = () => {
   const bottomLeftTextRef = useRef<HTMLDivElement>(null);
   const bottomRightTextRef = useRef<HTMLDivElement>(null);
   const [showMenuBar, setShowMenuBar] = useState(false); // State to control rendering of MenuBar
+  const [currentTime, setCurrentTime] = useState<string>(''); // State to hold the current time
 
+  // Function to get the current time in IST
+  const getCurrentTimeIST = () => {
+    const now = new Date();
+    const utcOffset = now.getTimezoneOffset() * 60000;
+    const istOffset = 5.5 * 3600000; // IST is UTC +5:30
+    const istTime = new Date(now.getTime() + utcOffset + istOffset);
+    const hours = istTime.getHours().toString().padStart(2, '0'); // Get hours and pad with leading zero if needed
+    const minutes = istTime.getMinutes().toString().padStart(2, '0'); // Get minutes and pad with leading zero if needed
+    const seconds = istTime.getSeconds().toString().padStart(2, '0'); // Get seconds and pad with leading zero if needed
+    return `${hours}:${minutes}:${seconds}`;
+  };
 
   useEffect(() => {
     const leftText = leftTextRef.current;
@@ -115,6 +142,11 @@ const Test: React.FC = () => {
     animateCornerText(bottomLeftText!, '-50%', '0%', () => setShowMenuBar(true));
     animateCornerText(bottomRightText!, '50%', '0%', () => setShowMenuBar(true));
 
+    // Set up interval to update time every second
+    const intervalId = setInterval(() => {
+      setCurrentTime(getCurrentTimeIST());
+    }, 1000);
+
     return () => {
       if (leftText) {
         gsap.killTweensOf(leftText);
@@ -128,6 +160,7 @@ const Test: React.FC = () => {
           gsap.killTweensOf(letter);
         });
       }
+      clearInterval(intervalId); // Clear the interval on component unmount
     };
   }, []);
 
@@ -146,16 +179,20 @@ const Test: React.FC = () => {
       <div ref={topLeftTextRef} style={{ ...cornerTextStyle, top: '40px', left: '10px' }}>
         Top Left Corner
       </div>
-      <div ref={topRightTextRef} style={{ ...cornerTextStyle, top: '40px', right: '10px' }}>
-        Top Right Corner
+      <div ref={topRightTextRef} style={{ ...cornerTextStyle, top: '33px', right: '10px' }}>
+        <a href="https://rishabhpreethan.github.io/resume/" target="_blank" rel="noopener noreferrer">
+          <button style={menuButtonStyle}>
+            Download Resume
+          </button>
+        </a>
       </div>
-      {showMenuBar && <MenuBar />}
       <div ref={bottomLeftTextRef} style={{ ...cornerTextStyle, bottom: '55px', left: '10px' }}>
-        Bottom Left Corner
+        ◍ Software Engineer
       </div>
       <div ref={bottomRightTextRef} style={{ ...cornerTextStyle, bottom: '55px', right: '10px' }}>
-        Bottom Right Corner
+        India {currentTime} ◍
       </div>
+      {showMenuBar && <MenuBar />}
     </div>
   );
 };
