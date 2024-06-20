@@ -33,8 +33,42 @@ const CustomCursor: React.FC = () => {
       gsap.to(cursorOuter, { opacity: 0 });
     });
 
+    document.addEventListener('mousedown', () => {
+      gsap.to(cursorOuter, { duration: 0.2, scale: 0.5 });
+    });
+
+    document.addEventListener('mouseup', () => {
+      gsap.to(cursorOuter, { duration: 0.2, scale: 1 });
+    });
+
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+      button.style.cursor = 'none';
+      button.addEventListener('mouseover', () => {
+        gsap.to(cursorOuter, { duration: 0.2, borderColor: '#00ff00' }); // Brighter green color
+      });
+      button.addEventListener('mouseout', () => {
+        gsap.to(cursorOuter, { duration: 0.2, borderColor: 'white' });
+      });
+    });
+
+
     return () => {
       document.removeEventListener('mousemove', moveCursor);
+      document.removeEventListener('mousedown', () => {
+        gsap.to(cursorOuter, { duration: 0.2, scale: 0.5 });
+      });
+      document.removeEventListener('mouseup', () => {
+        gsap.to(cursorOuter, { duration: 0.2, scale: 1 });
+      });
+      buttons.forEach(button => {
+        button.removeEventListener('mouseover', () => {
+          gsap.to(cursorOuter, { duration: 0.2, borderColor: 'green' });
+        });
+        button.removeEventListener('mouseout', () => {
+          gsap.to(cursorOuter, { duration: 0.2, borderColor: 'white' });
+        });
+      });
       cursorInner.remove();
       cursorOuter.remove();
     };
@@ -70,7 +104,11 @@ style.innerHTML = `
     width: 35px;
     height: 35px;
     border: 2px solid white;
-    opacity: 0.5;
+    opacity: 1;
+    transform-origin: center center;
+  }
+  button {
+    cursor: none; /* Ensure buttons do not show the default pointer cursor */
   }
 `;
 document.head.appendChild(style);
