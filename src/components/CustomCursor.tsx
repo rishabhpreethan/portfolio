@@ -41,17 +41,41 @@ const CustomCursor: React.FC = () => {
       gsap.to(cursorOuter, { duration: 0.2, scale: 1 });
     });
 
-    const buttons = document.querySelectorAll('button');
-    buttons.forEach(button => {
+    const addHoverEffect = (button: HTMLButtonElement) => {
       button.style.cursor = 'none';
       button.addEventListener('mouseover', () => {
-        gsap.to(cursorOuter, { duration: 0.2, borderColor: '#00ff00' }); // Brighter green color
+        gsap.to(cursorOuter, { duration: 0.2, borderColor: '#00ff00' });
       });
       button.addEventListener('mouseout', () => {
         gsap.to(cursorOuter, { duration: 0.2, borderColor: 'white' });
       });
+    };
+
+    const attachButtonListeners = () => {
+      const buttons = document.querySelectorAll('button');
+      buttons.forEach(button => addHoverEffect(button as HTMLButtonElement));
+    };
+
+    // Attach event listeners initially
+    attachButtonListeners();
+
+    // Observe for new elements added to the DOM
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach(mutation => {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+          mutation.addedNodes.forEach(node => {
+            if (node instanceof HTMLButtonElement) {
+              addHoverEffect(node);
+            } else if (node instanceof HTMLElement) {
+              const newButtons = node.querySelectorAll('button');
+              newButtons.forEach(button => addHoverEffect(button as HTMLButtonElement));
+            }
+          });
+        }
+      });
     });
 
+    observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
       document.removeEventListener('mousemove', moveCursor);
@@ -61,14 +85,7 @@ const CustomCursor: React.FC = () => {
       document.removeEventListener('mouseup', () => {
         gsap.to(cursorOuter, { duration: 0.2, scale: 1 });
       });
-      buttons.forEach(button => {
-        button.removeEventListener('mouseover', () => {
-          gsap.to(cursorOuter, { duration: 0.2, borderColor: 'green' });
-        });
-        button.removeEventListener('mouseout', () => {
-          gsap.to(cursorOuter, { duration: 0.2, borderColor: 'white' });
-        });
-      });
+      observer.disconnect();
       cursorInner.remove();
       cursorOuter.remove();
     };
