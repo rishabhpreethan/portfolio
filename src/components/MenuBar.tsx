@@ -78,11 +78,11 @@ const MenuBar: React.FC = () => {
 
 const menuBarStyle: React.CSSProperties = {
   position: 'fixed',
-  bottom: '40px',
+  bottom: '38px',
   left: '50%',
   transform: 'translateX(-50%)',
   backgroundColor: 'black',
-  padding: '10px 20px',
+  padding: '10px 10px',
   borderRadius: '50px',
   display: 'flex',
   justifyContent: 'space-around',

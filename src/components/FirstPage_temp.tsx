@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import MenuBar from './MenuBar'; // Import the MenuBar component
-import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 
 const containerStyle: React.CSSProperties = {
   display: 'flex',
@@ -45,9 +44,10 @@ const menuButtonStyle: React.CSSProperties = {
   fontSize: '14px', // Original font size
   borderRadius: '20px', // Rounded edges for buttons
   cursor: 'pointer',
-  transition: 'background-color 0.3s',
+  // transition: 'background-color 0.3s',
   margin: '0 10px', // Original space between buttons
   fontFamily: "'DM Mono', monospace", // DM Mono font style
+  transition: 'box-shadow 0.3s',
 };
 
 const sequentialFlicker = (leftElement: HTMLElement, rightElement: HTMLElement) => {
@@ -164,6 +164,14 @@ const Test: React.FC = () => {
     };
   }, []);
 
+  const handleMouseEnter = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.currentTarget.style.boxShadow = '0 0 0 2px #00ff00';
+  };
+
+  const handleMouseLeave = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.currentTarget.style.boxShadow = '0 0 0 white';
+  };
+
   return (
     <div style={containerStyle}>
       <div ref={leftTextRef} style={textStyle}>
@@ -181,7 +189,11 @@ const Test: React.FC = () => {
       </div>
       <div ref={topRightTextRef} style={{ ...cornerTextStyle, top: '33px', right: '10px' }}>
         <a href="https://rishabhpreethan.github.io/resume/" target="_blank" rel="noopener noreferrer">
-          <button style={menuButtonStyle}>
+          <button
+            style={menuButtonStyle}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
             Download Resume
           </button>
         </a>
@@ -207,8 +219,8 @@ const FirstPage = () => {
   let interval: number; // Declare interval here
 
   useEffect(() => {
-    const welcomeText = "RISHABH'S ";
-    const portfolioText = 'PORTFOLIO 2024';
+    const welcomeText = "Rishabh's ";
+    const portfolioText = 'Portfolio 2024';
     let welcomeIndex = 0;
     let portfolioIndex = 0;
 
@@ -253,7 +265,7 @@ const FirstPage = () => {
                         ease: 'power2.in',
                         onComplete: () => {
                           if (welcomeTextRef.current) {
-                            welcomeTextRef.current.innerHTML = "WELCOME - ";
+                            welcomeTextRef.current.innerHTML = "Welcome - ";
                           }
                           setShowName(true); // Set showName to true after welcome text animation completes
                         }
