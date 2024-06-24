@@ -217,7 +217,6 @@ const FirstPage = () => {
   const cursorRef = useRef<HTMLSpanElement | null>(null);
   const circleRef = useRef<HTMLSpanElement | null>(null);
   let interval: ReturnType<typeof setInterval>;
-  // let interval: number; // Declare interval here
 
   useEffect(() => {
     const welcomeText = "Rishabh's ";
