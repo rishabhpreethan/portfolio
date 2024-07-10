@@ -17,7 +17,7 @@ const CustomCursor: React.FC = () => {
 
     const moveCursor = (e: MouseEvent) => {
       const { clientX: x, clientY: y } = e;
-      gsap.to(cursorInner, { duration: 0.1, x, y });
+      gsap.to(cursorInner, { duration: 0, x, y });
       gsap.to(cursorOuter, { duration: 0.4, x, y });
     };
 
