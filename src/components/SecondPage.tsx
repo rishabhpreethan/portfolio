@@ -32,10 +32,10 @@ const HorizontalScrollSection = () => {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '20px',
+    height: '300px',
+    width: '500px',
     margin: '10px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    borderRadius: '15px',
+    borderRadius: '50px',
     border: '4px solid white',
     fontFamily: "'DM Sans', sans-serif",
     fontWeight: 'bold'
@@ -61,14 +61,14 @@ const VerticalScrollSection = () => (
 
 const SecondPage = () => (
   <div>
-    <HorizontalScrollSection />
-    <VerticalScrollSection />
     <Starfield
         starCount={1000}
         starColor={[255, 255, 255]}
         speedFactor={0.1}
         backgroundColor="black"
-      />
+    />
+    <HorizontalScrollSection />
+    <VerticalScrollSection />
   </div>
 );
 
