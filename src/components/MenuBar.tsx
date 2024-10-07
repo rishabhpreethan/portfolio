@@ -18,7 +18,7 @@ const MenuBar: React.FC = () => {
     color: 'white',
     border: '1px solid rgba(128, 128, 128, 0.5)',
     padding: '8px 16px',
-    fontSize: '14px',
+    fontSize: '13px',
     borderRadius: '20px',
     cursor: 'pointer',
     transition: 'background-color 0.3s, box-shadow 0.3s',

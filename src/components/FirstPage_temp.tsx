@@ -15,7 +15,7 @@ const containerStyle: React.CSSProperties = {
 };
 
 const textStyle: React.CSSProperties = {
-  fontSize: '170px',
+  fontSize: '150px',
   position: 'relative',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
@@ -25,7 +25,7 @@ const textStyle: React.CSSProperties = {
 
 const cornerTextStyle: React.CSSProperties = {
   fontFamily: 'DM Mono, monospace',
-  fontSize: '16px',
+  fontSize: '13px',
   color: 'white',
   position: 'absolute',
   whiteSpace: 'nowrap',
@@ -41,7 +41,7 @@ const menuButtonStyle: React.CSSProperties = {
   color: 'white',
   border: '2px solid rgba(128, 128, 128, 0.5)', // Grey border for buttons
   padding: '8px 16px', // Original padding
-  fontSize: '14px', // Original font size
+  fontSize: '13px', // Original font size
   borderRadius: '20px', // Rounded edges for buttons
   cursor: 'pointer',
   // transition: 'background-color 0.3s',
@@ -254,7 +254,7 @@ const FirstPage = () => {
                   gsap.to(textContainerRef.current, {
                     duration: 2,
                     ease: 'power4',
-                    left: '46.75%',
+                    left: '45.7%',
                     xPercent: -50,
                     onComplete: () => {
                       const tl = gsap.timeline();
@@ -320,7 +320,7 @@ const landingPageStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'flex-start',
   justifyContent: 'flex-start',
-  height: '90vh',
+  height: '60vh',
   backgroundColor: '#000',
   padding: '10px',
   paddingTop: '40px', // Adjusted padding to push the whole thing down

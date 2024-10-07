@@ -3,12 +3,14 @@ import FirstPage from './components/FirstPage_temp';
 import CustomCursor from './components/CustomCursor';
 // import Starfield from './components/StarField';
 import SecondPage from './components/SecondPage';
+import Test from './components/FirstPage';
 
 const App = () => {
   return (
     <div>
       <CustomCursor />
-      <FirstPage />
+      <Test />
+      {/* <FirstPage /> */}
       <SecondPage />
       {/* <Starfield
         starCount={1000}

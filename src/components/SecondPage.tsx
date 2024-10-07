@@ -55,7 +55,7 @@ const HorizontalScrollSection = () => {
 
 const VerticalScrollSection = () => (
   <div style={{ height: '100vh', background: 'lightgreen' }}>
-    <h2>Vertical Scroll Content</h2>
+    <h2>Under Progress</h2>
   </div>
 );
 
@@ -67,7 +67,7 @@ const SecondPage = () => (
         speedFactor={0.1}
         backgroundColor="black"
     />
-    <HorizontalScrollSection />
+    {/* <HorizontalScrollSection /> */}
     <VerticalScrollSection />
   </div>
 );
