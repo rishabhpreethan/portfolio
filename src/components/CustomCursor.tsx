@@ -113,14 +113,14 @@ style.innerHTML = `
     will-change: transform;
   }
   .cursor-inner {
-    width: 20px;
-    height: 20px;
+    width: 10px;
+    height: 10px;
     background-color: white;
   }
   .cursor-outer {
-    width: 35px;
-    height: 35px;
-    border: 2px solid white;
+    width: 15px;
+    height: 15px;
+    border: 1.5px solid white;
     opacity: 1;
     transform-origin: center center;
   }

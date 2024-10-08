@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import MenuBar from './MenuBar'; // Import the MenuBar component
+import MenuButton from './MenuButton';
 
 const containerStyle: React.CSSProperties = {
   display: 'flex',
@@ -183,8 +184,8 @@ const Test: React.FC = () => {
           <span key={index}>{letter}</span>
         ))}
       </div>
-      <div ref={topLeftTextRef} style={{ ...cornerTextStyle, top: '40px', left: '10px' }}>
-        Top Left Corner
+      <div ref={topLeftTextRef} style={{ ...cornerTextStyle, top: '-5px', left: '-15px' }}>
+        <MenuButton />
       </div>
       <div ref={topRightTextRef} style={{ ...cornerTextStyle, top: '33px', right: '0px' }}>
         <a href="https://rishabhpreethan.github.io/resume/" target="_blank" rel="noopener noreferrer">
