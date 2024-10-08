@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import MenuBar from './MenuBar'; // Import the MenuBar component
+import MenuBar from './MenuBar';
 import MenuButton from './MenuButton';
 
 const containerStyle: React.CSSProperties = {
@@ -37,17 +37,17 @@ const cornerTextStyle: React.CSSProperties = {
 };
 
 const menuButtonStyle: React.CSSProperties = {
-  backgroundColor: 'black', // Black background for buttons
-  borderColor: 'rgba(128, 128, 128, 0.5)', // Grey border
+  backgroundColor: 'black',
+  borderColor: 'rgba(128, 128, 128, 0.5)',
   color: 'white',
-  border: '2px solid rgba(128, 128, 128, 0.5)', // Grey border for buttons
-  padding: '8px 16px', // Original padding
-  fontSize: '13px', // Original font size
-  borderRadius: '20px', // Rounded edges for buttons
+  border: '2px solid rgba(128, 128, 128, 0.5)',
+  padding: '8px 16px',
+  fontSize: '13px',
+  borderRadius: '20px',
   cursor: 'pointer',
-  margin: '0 10px', // Original space between buttons
-  fontFamily: "'DM Mono', monospace", // DM Mono font style
-  transition: 'box-shadow 0.3s',
+  margin: '0 10px',
+  fontFamily: "'DM Mono', monospace",
+  transition: 'box-shadow 0.3s ease-in-out',
 };
 
 const sequentialFlicker = (leftElement: HTMLElement, rightElement: HTMLElement) => {
@@ -85,25 +85,25 @@ const sequentialFlicker = (leftElement: HTMLElement, rightElement: HTMLElement) 
   }
 };
 
-const Test: React.FC = () => {
+const FirstPage: React.FC = () => {
   const leftTextRef = useRef<HTMLDivElement>(null);
   const rightTextRef = useRef<HTMLDivElement>(null);
   const topLeftTextRef = useRef<HTMLDivElement>(null);
   const topRightTextRef = useRef<HTMLDivElement>(null);
   const bottomLeftTextRef = useRef<HTMLDivElement>(null);
   const bottomRightTextRef = useRef<HTMLDivElement>(null);
-  const [showMenuBar, setShowMenuBar] = useState(false); // State to control rendering of MenuBar
-  const [currentTime, setCurrentTime] = useState<string>(''); // State to hold the current time
+  const [showMenuBar, setShowMenuBar] = useState(false);
+  const [currentTime, setCurrentTime] = useState<string>('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Function to get the current time in IST
   const getCurrentTimeIST = () => {
     const now = new Date();
     const utcOffset = now.getTimezoneOffset() * 60000;
-    const istOffset = 5.5 * 3600000; // IST is UTC +5:30
+    const istOffset = 5.5 * 3600000;
     const istTime = new Date(now.getTime() + utcOffset + istOffset);
-    const hours = istTime.getHours().toString().padStart(2, '0'); // Get hours and pad with leading zero if needed
-    const minutes = istTime.getMinutes().toString().padStart(2, '0'); // Get minutes and pad with leading zero if needed
-    const seconds = istTime.getSeconds().toString().padStart(2, '0'); // Get seconds and pad with leading zero if needed
+    const hours = istTime.getHours().toString().padStart(2, '0');
+    const minutes = istTime.getMinutes().toString().padStart(2, '0');
+    const seconds = istTime.getSeconds().toString().padStart(2, '0');
     return `${hours}:${minutes}:${seconds}`;
   };
 
@@ -116,22 +116,19 @@ const Test: React.FC = () => {
     const bottomRightText = bottomRightTextRef.current;
 
     if (leftText && rightText) {
-      gsap.set([leftText, rightText], { opacity: 1 }); // Set opacity to 1 before starting the animation
+      gsap.set([leftText, rightText], { opacity: 1 });
       gsap.fromTo(leftText, { x: '-50%', opacity: 0 }, { x: '0%', opacity: 1, duration: 4, ease: 'power4.out' });
       gsap.fromTo(rightText, { x: '50%', opacity: 0 }, { x: '0%', opacity: 1, duration: 4, ease: 'power4.out' });
 
-      // Apply sequential flicker effect to each letter
       sequentialFlicker(leftText, rightText);
     }
 
     const animateCornerText = (element: HTMLElement, fromX: string, toX: string, onStart: () => void) => {
       if (element) {
-        // Hide scroll bars
         document.body.style.overflow = 'hidden';
   
-        gsap.set(element, { opacity: 1 }); // Set opacity to 1 before starting the animation
+        gsap.set(element, { opacity: 1 });
         gsap.fromTo(element, { x: fromX, opacity: 0 }, { x: toX, opacity: 1, duration: 3, delay: 1.5, ease: 'power4', onStart: onStart, onComplete: () => {
-          // Show scroll bars after animation
           document.body.style.overflow = 'auto';
         } });
       }
@@ -142,7 +139,6 @@ const Test: React.FC = () => {
     animateCornerText(bottomLeftText!, '-50%', '0%', () => setShowMenuBar(true));
     animateCornerText(bottomRightText!, '50%', '0%', () => setShowMenuBar(true));
 
-    // Set up interval to update time every second
     const intervalId = setInterval(() => {
       setCurrentTime(getCurrentTimeIST());
     }, 1000);
@@ -160,37 +156,61 @@ const Test: React.FC = () => {
           gsap.killTweensOf(letter);
         });
       }
-      clearInterval(intervalId); // Clear the interval on component unmount
+      clearInterval(intervalId);
     };
   }, []);
 
   const handleMouseEnter = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.currentTarget.style.boxShadow = '0 0 0 2px #00ff00';
+    gsap.to(event.currentTarget, {
+      boxShadow: '0 0 0 2px #00ff00',
+      duration: 0.3,
+      ease: 'power2.out'
+    });
   };
 
   const handleMouseLeave = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.currentTarget.style.boxShadow = '0 0 0 white';
+    gsap.to(event.currentTarget, {
+      boxShadow: '0 0 0 0px #00ff00',
+      duration: 0.3,
+      ease: 'power2.out'
+    });
+  };
+
+  const getBlurStyle = (isBlurred: boolean): React.CSSProperties => ({
+    filter: isBlurred ? 'blur(5px)' : 'none',
+    transition: 'filter 0.6s ease-in-out'
+  });
+
+  const handleMenuToggle = (open: boolean) => {
+    setIsMenuOpen(open);
+  };
+
+  const handleOverlayClick = () => {
+    setIsMenuOpen(false);
   };
 
   return (
     <div style={containerStyle}>
-      <div ref={leftTextRef} style={textStyle}>
+      <div ref={leftTextRef} style={{...textStyle, ...getBlurStyle(isMenuOpen)}}>
         {Array.from('Rishabh').map((letter, index) => (
           <span key={index}>{letter}</span>
         ))}
       </div>
-      <div ref={rightTextRef} style={textStyle}>
+      <div ref={rightTextRef} style={{...textStyle, ...getBlurStyle(isMenuOpen)}}>
         {Array.from('Preethan').map((letter, index) => (
           <span key={index}>{letter}</span>
         ))}
       </div>
       <div ref={topLeftTextRef} style={{ ...cornerTextStyle, top: '-5px', left: '-15px' }}>
-        <MenuButton />
+        <MenuButton onToggle={setIsMenuOpen} />
       </div>
-      <div ref={topRightTextRef} style={{ ...cornerTextStyle, top: '33px', right: '0px' }}>
+      <div 
+        ref={topRightTextRef} 
+        style={{ ...cornerTextStyle, ...getBlurStyle(isMenuOpen), top: '33px', right: '0px' }}
+      >
         <a href="https://rishabhpreethan.github.io/resume/" target="_blank" rel="noopener noreferrer">
           <button
-            style={menuButtonStyle}
+            style={{...menuButtonStyle, ...getBlurStyle(isMenuOpen)}}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
@@ -198,15 +218,21 @@ const Test: React.FC = () => {
           </button>
         </a>
       </div>
-      <div ref={bottomLeftTextRef} style={{ ...cornerTextStyle, bottom: '55px', left: '10px' }}>
+      <div 
+        ref={bottomLeftTextRef} 
+        style={{ ...cornerTextStyle, ...getBlurStyle(isMenuOpen), bottom: '55px', left: '10px' }}
+      >
         ◍ Software Engineer
       </div>
-      <div ref={bottomRightTextRef} style={{ ...cornerTextStyle, bottom: '55px', right: '10px' }}>
+      <div 
+        ref={bottomRightTextRef} 
+        style={{ ...cornerTextStyle, ...getBlurStyle(isMenuOpen), bottom: '55px', right: '10px' }}
+      >
         India {currentTime} ◍
       </div>
-      {showMenuBar && <MenuBar />} {/* Render MenuBar if showMenuBar is true */}
+      {showMenuBar && <MenuBar isOpen={isMenuOpen} />}
     </div>
   );
 };
 
-export default Test;
+export default FirstPage;

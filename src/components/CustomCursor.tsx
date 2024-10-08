@@ -111,6 +111,7 @@ style.innerHTML = `
     pointer-events: none;
     mix-blend-mode: difference;
     will-change: transform;
+    z-index: 9999; /* Ensure cursor is always on top */
   }
   .cursor-inner {
     width: 10px;

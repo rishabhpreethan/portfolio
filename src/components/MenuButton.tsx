@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Overlay from './Overlay';
 
+interface MenuButtonProps {
+  onToggle: (isOpen: boolean) => void;
+}
+
 const menuButtonStyle: React.CSSProperties = {
   position: 'fixed',
   top: '-1px',
@@ -51,12 +55,14 @@ const line3Style: React.CSSProperties = {
   strokeDasharray: '60 207',
 };
 
-const MenuButton: React.FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
-  
-    const toggleMenu = () => {
-      setIsOpen(prevState => !prevState);
-    };
+const MenuButton: React.FC<MenuButtonProps> = ({ onToggle }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    const newIsOpen = !isOpen;
+    setIsOpen(newIsOpen);
+    onToggle(newIsOpen);
+  };
 
   return (
     <>

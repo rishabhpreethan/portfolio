@@ -14,9 +14,10 @@ const overlayStyle: React.CSSProperties = {
 
 interface OverlayProps {
   isOpen: boolean;
+  onClose: () => void;
 }
 
-const Overlay: React.FC<OverlayProps> = ({ isOpen }) => {
+const Overlay: React.FC<OverlayProps> = ({ isOpen, onClose }) => {
   return (
     <div
       style={{
@@ -24,6 +25,7 @@ const Overlay: React.FC<OverlayProps> = ({ isOpen }) => {
         opacity: isOpen ? 1 : 0, // Show or hide overlay based on isOpen
         pointerEvents: isOpen ? 'auto' : 'none', // Prevent interactions when hidden
       }}
+      onClick={onClose}
     />
   );
 };

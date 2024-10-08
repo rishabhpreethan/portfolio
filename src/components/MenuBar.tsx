@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
-const MenuBar: React.FC = () => {
+interface MenuBarProps {
+  isOpen: boolean;
+}
+
+const MenuBar: React.FC<MenuBarProps> = ({ isOpen }) => {
   const menuBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,7 +40,15 @@ const MenuBar: React.FC = () => {
   };
 
   return (
-    <div ref={menuBarRef} style={{ ...menuBarStyle, opacity: 0 }}>
+    <div 
+      ref={menuBarRef} 
+      style={{ 
+        ...menuBarStyle, 
+        opacity: 0,
+        filter: isOpen ? 'blur(5px)' : 'none',
+        transition: 'filter 0.6s ease-in-out'
+      }}
+    >
       <button
         style={menuButtonStyle}
         onMouseEnter={handleMouseEnter}
@@ -89,6 +101,7 @@ const menuBarStyle: React.CSSProperties = {
   boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
   border: '1px solid rgba(255, 255, 255, 0.2)',
   fontFamily: "'DM Mono', monospace",
+  zIndex: 950, // Ensure it's above the main content but below the overlay
 };
 
 export default MenuBar;
