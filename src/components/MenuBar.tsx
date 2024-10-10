@@ -3,18 +3,23 @@ import { gsap } from 'gsap';
 
 interface MenuBarProps {
   isOpen: boolean;
+  isVisible: boolean;
 }
 
-const MenuBar: React.FC<MenuBarProps> = ({ isOpen }) => {
+const MenuBar: React.FC<MenuBarProps> = ({ isOpen, isVisible }) => {
   const menuBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const menuBar = menuBarRef.current;
 
     if (menuBar) {
-      gsap.to(menuBar, { opacity: 1, duration: 3 });
+      gsap.to(menuBar, { 
+        opacity: isVisible ? 1 : 0, 
+        duration: 0.3,
+        pointerEvents: isVisible ? 'auto' : 'none'
+      });
     }
-  }, []);
+  }, [isVisible]);
 
   const menuButtonStyle: React.CSSProperties = {
     backgroundColor: 'black',
@@ -44,9 +49,10 @@ const MenuBar: React.FC<MenuBarProps> = ({ isOpen }) => {
       ref={menuBarRef} 
       style={{ 
         ...menuBarStyle, 
-        opacity: 0,
+        opacity: isVisible ? 1 : 0,
         filter: isOpen ? 'blur(5px)' : 'none',
-        transition: 'filter 0.6s ease-in-out'
+        transition: 'filter 0.6s ease-in-out, opacity 0.3s ease-in-out',
+        pointerEvents: isVisible ? 'auto' : 'none'
       }}
     >
       <button

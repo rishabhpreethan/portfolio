@@ -95,6 +95,9 @@ const FirstPage: React.FC = () => {
   const [showMenuBar, setShowMenuBar] = useState(false);
   const [currentTime, setCurrentTime] = useState<string>('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuBarVisible, setIsMenuBarVisible] = useState(true);
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
 
   const getCurrentTimeIST = () => {
     const now = new Date();
@@ -143,6 +146,33 @@ const FirstPage: React.FC = () => {
       setCurrentTime(getCurrentTimeIST());
     }, 1000);
 
+    const handleScroll = () => {
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          const windowHeight = window.innerHeight;
+          const isScrollingDown = currentScrollY > lastScrollY.current;
+          
+          // Check if we're at a page boundary (within 10 pixels of a multiple of window height)
+          const isAtPageBoundary = Math.abs(currentScrollY % windowHeight) < 10 || 
+                                   Math.abs(currentScrollY % windowHeight - windowHeight) < 10;
+
+          if (isScrollingDown && !isAtPageBoundary) {
+            setIsMenuBarVisible(false);
+          } else if (!isScrollingDown || isAtPageBoundary) {
+            setIsMenuBarVisible(true);
+          }
+
+          lastScrollY.current = currentScrollY;
+          ticking.current = false;
+        });
+
+        ticking.current = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
     return () => {
       if (leftText) {
         gsap.killTweensOf(leftText);
@@ -157,6 +187,7 @@ const FirstPage: React.FC = () => {
         });
       }
       clearInterval(intervalId);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -183,10 +214,6 @@ const FirstPage: React.FC = () => {
 
   const handleMenuToggle = (open: boolean) => {
     setIsMenuOpen(open);
-  };
-
-  const handleOverlayClick = () => {
-    setIsMenuOpen(false);
   };
 
   return (
@@ -230,7 +257,7 @@ const FirstPage: React.FC = () => {
       >
         India {currentTime} ◍
       </div>
-      {showMenuBar && <MenuBar isOpen={isMenuOpen} />}
+      {showMenuBar && <MenuBar isOpen={isMenuOpen} isVisible={isMenuBarVisible} />}
     </div>
   );
 };
