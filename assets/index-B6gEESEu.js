@@ -108,6 +108,7 @@ Error generating stack: `+o.message+`
 
         .rainbow:hover {
           transform: scale(1.05);
+          transition: 'transform 0.3s ease-in-out;
         }
 
         .rainbow:hover::before {
@@ -124,11 +125,11 @@ Error generating stack: `+o.message+`
           background-size: 60% 60%, 40% 40%; /* Adjust sizes to make white thinner */
           background-position: 0 0, 100% 0, 100% 100%, 0 100%;
           background-image: 
-            linear-gradient(#00ff00, #00ff00), /* Top-left green */
-            linear-gradient(#ffffff, #ffffff), /* Top-right white */
-            linear-gradient(#00ff00, #00ff00), /* Bottom-right green */
-            linear-gradient(#ffffff, #ffffff); /* Bottom-left white */
-          animation: rotate 4s linear infinite;
+            radial-gradient(circle at top left, #000000, #000000), /* Top-left gradient */
+            radial-gradient(circle at top right, #ffffff, #ffffff), /* Top-right gradient */
+            radial-gradient(circle at bottom right, #000000, #000000), /* Bottom-right gradient */
+            radial-gradient(circle at bottom left, #ffffff, #ffffff); /* Bottom-left gradient */
+          animation: rotate 7s linear infinite;
         }
 
         .rainbow:hover::after {
