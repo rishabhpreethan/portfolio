@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import MenuBar from './MenuBar';
 import MenuButton from './MenuButton';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const containerStyle: React.CSSProperties = {
   display: 'flex',

@@ -77,7 +77,7 @@ const HorizontalScrollSection = () => {
             radial-gradient(circle at top right, #ffffff, #ffffff), /* Top-right gradient */
             radial-gradient(circle at bottom right, #000000, #000000), /* Bottom-right gradient */
             radial-gradient(circle at bottom left, #ffffff, #ffffff); /* Bottom-left gradient */
-          animation: rotate 9s linear infinite;
+          animation: rotate 7s linear infinite;
         }
 
         .rainbow:hover::after {
