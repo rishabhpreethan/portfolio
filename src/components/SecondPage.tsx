@@ -43,7 +43,7 @@ const HorizontalScrollSection = () => {
     background: 'black',
     border: '2px solid rgba(128, 128, 128, 0.5)',
     margin: '10px',
-    transition: 'transform 0.3s ease-in-out, filter 0.3s ease-in-out' // Smooth transition for scale and blur
+    transition: 'filter 0.3s ease-in-out' // Only transition filter
   };
 
   return (
@@ -56,11 +56,7 @@ const HorizontalScrollSection = () => {
         }
 
         .rainbow {
-          transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out; /* Smooth transition for scale and blur */
-        }
-
-        .rainbow:hover {
-          transform: scale(1.05); /* Scale effect on hover */
+          transition: filter 0.7s ease-in-out; /* Smooth transition for blur */
         }
 
         .rainbow:hover::before {
