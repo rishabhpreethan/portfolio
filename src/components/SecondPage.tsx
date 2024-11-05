@@ -43,7 +43,7 @@ const HorizontalScrollSection = () => {
     background: 'black',
     border: '2px solid rgba(128, 128, 128, 0.5)',
     margin: '10px',
-    transition: 'transform 0.3s ease-in-out' // Smooth transition for scale
+    transition: 'transform 0.3s ease-in-out, filter 0.3s ease-in-out' // Smooth transition for scale and blur
   };
 
   return (
@@ -56,14 +56,14 @@ const HorizontalScrollSection = () => {
         }
 
         .rainbow {
-          transition: transform 0.3s ease-in-out; /* Smooth transition for scale */
+          transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out; /* Smooth transition for scale and blur */
         }
 
         .rainbow:hover {
           transform: scale(1.05); /* Scale effect on hover */
         }
 
-        .rainbow::before {
+        .rainbow:hover::before {
           content: '';
           position: absolute;
           z-index: -2;
@@ -82,12 +82,6 @@ const HorizontalScrollSection = () => {
             radial-gradient(circle at bottom right, #000000, #000000),
             radial-gradient(circle at bottom left, #ffffff, #ffffff);
           animation: rotate 7s linear infinite;
-          transition: background 0.3s ease-in-out; /* Smooth transition for the background */
-        }
-
-        .rainbow:hover::before {
-          /* You can modify the hover background here if you want to change on hover */
-          background-size: 80% 80%, 60% 60%; /* Example of changing sizes on hover */
         }
 
         .rainbow:hover::after {
@@ -104,8 +98,7 @@ const HorizontalScrollSection = () => {
 
         /* Apply blur effect to all cards except the hovered one */
         .blur {
-          filter: blur(4px); /* Adjust blur intensity */
-          transition: filter 0.3s ease-in-out; /* Smooth transition for blur */
+          filter: blur(2px); /* Adjusted to lighter blur */
         }
       `}</style>
       <div
