@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Starfield from './StarField';
@@ -6,8 +6,9 @@ import Starfield from './StarField';
 gsap.registerPlugin(ScrollTrigger);
 
 const HorizontalScrollSection = () => {
-  const containerRef = useRef(null);
-  const horizontalRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const horizontalRef = useRef<HTMLDivElement>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null); // Track which card is hovered
 
   useEffect(() => {
     const container = containerRef.current;
@@ -30,7 +31,7 @@ const HorizontalScrollSection = () => {
     zIndex: 0,
     width: '500px',
     height: '300px',
-    borderRadius: '50px', // Keep the border radius
+    borderRadius: '50px',
     overflow: 'hidden',
     padding: '2rem',
     display: 'flex',
@@ -42,7 +43,7 @@ const HorizontalScrollSection = () => {
     background: 'black',
     border: '2px solid rgba(128, 128, 128, 0.5)',
     margin: '10px',
-    transition: 'transform 0.3s ease-in-out'
+    transition: 'transform 0.3s ease-in-out' // Smooth transition for scale
   };
 
   return (
@@ -54,12 +55,15 @@ const HorizontalScrollSection = () => {
           }
         }
 
-        .rainbow:hover {
-          transform: scale(1.05);
-          transition: 'transform 0.3s ease-in-out;
+        .rainbow {
+          transition: transform 0.3s ease-in-out; /* Smooth transition for scale */
         }
 
-        .rainbow:hover::before {
+        .rainbow:hover {
+          transform: scale(1.05); /* Scale effect on hover */
+        }
+
+        .rainbow::before {
           content: '';
           position: absolute;
           z-index: -2;
@@ -67,37 +71,63 @@ const HorizontalScrollSection = () => {
           top: -50%;
           width: 200%;
           height: 200%;
-          border-radius: 50px; /* Match card's border radius */
+          border-radius: 50px;
           background-color: transparent;
           background-repeat: no-repeat;
-          background-size: 60% 60%, 40% 40%; /* Adjust sizes to make white thinner */
+          background-size: 60% 60%, 40% 40%;
           background-position: 0 0, 100% 0, 100% 100%, 0 100%;
           background-image: 
-            radial-gradient(circle at top left, #000000, #000000), /* Top-left gradient */
-            radial-gradient(circle at top right, #ffffff, #ffffff), /* Top-right gradient */
-            radial-gradient(circle at bottom right, #000000, #000000), /* Bottom-right gradient */
-            radial-gradient(circle at bottom left, #ffffff, #ffffff); /* Bottom-left gradient */
+            radial-gradient(circle at top left, #000000, #000000),
+            radial-gradient(circle at top right, #ffffff, #ffffff),
+            radial-gradient(circle at bottom right, #000000, #000000),
+            radial-gradient(circle at bottom left, #ffffff, #ffffff);
           animation: rotate 7s linear infinite;
+          transition: background 0.3s ease-in-out; /* Smooth transition for the background */
+        }
+
+        .rainbow:hover::before {
+          /* You can modify the hover background here if you want to change on hover */
+          background-size: 80% 80%, 60% 60%; /* Example of changing sizes on hover */
         }
 
         .rainbow:hover::after {
           content: '';
           position: absolute;
           z-index: -1;
-          left: 2px; /* Reduced to make the border thinner */
-          top: 2px;  /* Reduced to make the border thinner */
-          width: calc(100% - 4px); /* Adjust width */
-          height: calc(100% - 4px); /* Adjust height */
-          border-radius: 50px; /* Same border-radius */
-          background: black; /* Keep the center black */
+          left: 2px;
+          top: 2px;
+          width: calc(100% - 4px);
+          height: calc(100% - 4px);
+          border-radius: 50px;
+          background: black;
+        }
+
+        /* Apply blur effect to all cards except the hovered one */
+        .blur {
+          filter: blur(4px); /* Adjust blur intensity */
+          transition: filter 0.3s ease-in-out; /* Smooth transition for blur */
         }
       `}</style>
-      <div ref={containerRef} style={{ overflow: 'hidden', height: '100vh', display: 'flex', alignItems: 'center' }}>
-        <div ref={horizontalRef} style={{ display: 'flex', width: '300%', transform: 'translateX(33.33%)' }}>
-          <div className="rainbow" style={cardStyle}>Card 1</div>
-          <div className="rainbow" style={cardStyle}>Card 2</div>
-          <div className="rainbow" style={cardStyle}>Card 3</div>
-          <div className="rainbow" style={cardStyle}>Card 4</div>
+      <div
+        ref={containerRef}
+        style={{ overflow: 'hidden', height: '100vh', display: 'flex', alignItems: 'center' }}
+      >
+        <div
+          ref={horizontalRef}
+          style={{ display: 'flex', width: '300%', transform: 'translateX(33.33%)' }}
+        >
+          {/* Cards with hover events */}
+          {[...Array(4)].map((_, index) => (
+            <div
+              key={index}
+              className={`rainbow ${hoveredIndex !== null && hoveredIndex !== index ? 'blur' : ''}`} // Apply blur if not hovered
+              style={cardStyle}
+              onMouseEnter={() => setHoveredIndex(index)} // Set hovered index
+              onMouseLeave={() => setHoveredIndex(null)} // Reset hovered index
+            >
+              Card {index + 1}
+            </div>
+          ))}
         </div>
       </div>
     </>
