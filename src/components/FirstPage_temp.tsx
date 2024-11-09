@@ -204,7 +204,7 @@ const Test: React.FC = () => {
       <div ref={bottomRightTextRef} style={{ ...cornerTextStyle, bottom: '55px', right: '10px' }}>
         India {currentTime} ◍
       </div>
-      {showMenuBar && <MenuBar />}
+      {showMenuBar && <MenuBar isOpen={false} isVisible={false} />}
     </div>
   );
 };

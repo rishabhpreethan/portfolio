@@ -57,33 +57,33 @@ const sequentialFlicker = (leftElement: HTMLElement, rightElement: HTMLElement) 
   const leftLetters = Array.from(leftElement.children);
   const rightLetters = Array.from(rightElement.children);
   const maxLength = Math.max(leftLetters.length, rightLetters.length);
-  const tl = gsap.timeline({ repeat: -1, repeatDelay: -0.3 });
+  const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.3 });
 
   for (let i = 0; i < maxLength; i++) {
     if (leftLetters[i]) {
       tl.to(leftLetters[i], {
         opacity: 0.4,
-        duration: 0.7,
+        duration: 0.6,
         ease: 'power1.inOut',
-      }, i * 0.2)
+      }, i * 0.15)
         .to(leftLetters[i], {
           opacity: 1,
-          duration: 0.7,
+          duration: 0.6,
           ease: 'power1.inOut',
-        }, i * 0.2 + 0.35);
+        }, i * 0.15 + 0.3);
     }
 
     if (rightLetters[i]) {
       tl.to(rightLetters[i], {
         opacity: 0.4,
-        duration: 0.7,
+        duration: 0.6,
         ease: 'power1.inOut',
-      }, i * 0.2)
+      }, i * 0.15)
         .to(rightLetters[i], {
           opacity: 1,
-          duration: 0.7,
+          duration: 0.6,
           ease: 'power1.inOut',
-        }, i * 0.2 + 0.35);
+        }, i * 0.15 + 0.3);
     }
   }
 };
