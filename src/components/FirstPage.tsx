@@ -129,16 +129,57 @@ const FirstPage: React.FC = () => {
       sequentialFlicker(leftText, rightText);
     }
 
+    // Initial corner text animations with scroll setup callback
     const animateCornerText = (element: HTMLElement, fromX: string, toX: string, onStart: () => void) => {
       if (element) {
         document.body.style.overflow = 'hidden';
-  
         gsap.set(element, { opacity: 1 });
-        gsap.fromTo(element, { x: fromX, opacity: 0 }, { x: toX, opacity: 1, duration: 3, delay: 1.5, ease: 'power4', onStart: onStart, onComplete: () => {
-          document.body.style.overflow = 'auto';
-        } });
+        gsap.fromTo(element, 
+          { x: fromX, opacity: 0 }, 
+          { 
+            x: toX, 
+            opacity: 1, 
+            duration: 3, 
+            delay: 1.5, 
+            ease: 'power4', 
+            onStart: onStart, 
+            onComplete: () => {
+              document.body.style.overflow = 'auto';
+              setupScrollAnimations();
+            }
+          }
+        );
       }
     };
+
+    // Setup scroll animations for corner texts
+    const setupScrollAnimations = () => {
+      const cornerTexts = [bottomLeftText, bottomRightText];
+      
+      cornerTexts.forEach((element) => {
+        if (element) {
+          gsap.to(element, {
+            y: '-25px',
+            opacity: 0,
+            ease: 'power2.inOut',
+            scrollTrigger: {
+              trigger: element,
+              start: 'top center',
+              end: '+=200',
+              scrub: 2,
+              toggleActions: 'play none none reverse',
+            }
+          });
+        }
+      });
+    };
+
+    // Initial animations
+    animateCornerText(topLeftText!, '-50%', '0%', () => setShowMenuBar(true));
+    animateCornerText(topRightText!, '50%', '0%', () => setShowMenuBar(true));
+    animateCornerText(bottomLeftText!, '-50%', '0%', () => setShowMenuBar(true));
+    animateCornerText(bottomRightText!, '50%', '0%', () => setShowMenuBar(true));
+
 
     animateCornerText(topLeftText!, '-50%', '0%', () => setShowMenuBar(true));
     animateCornerText(topRightText!, '50%', '0%', () => setShowMenuBar(true));
@@ -156,7 +197,6 @@ const FirstPage: React.FC = () => {
           const windowHeight = window.innerHeight;
           const isScrollingDown = currentScrollY > lastScrollY.current;
           
-          // Check if we're at a page boundary (within 10 pixels of a multiple of window height)
           const isAtPageBoundary = Math.abs(currentScrollY % windowHeight) < 10 || 
                                    Math.abs(currentScrollY % windowHeight - windowHeight) < 10;
 
@@ -176,6 +216,7 @@ const FirstPage: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
 
+    // Cleanup function
     return () => {
       if (leftText) {
         gsap.killTweensOf(leftText);
@@ -189,6 +230,7 @@ const FirstPage: React.FC = () => {
           gsap.killTweensOf(letter);
         });
       }
+      ScrollTrigger.getAll().forEach(st => st.kill());
       clearInterval(intervalId);
       window.removeEventListener('scroll', handleScroll);
     };
