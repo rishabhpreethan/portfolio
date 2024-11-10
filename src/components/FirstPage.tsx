@@ -34,8 +34,8 @@ const cornerTextStyle: React.CSSProperties = {
   position: 'absolute',
   whiteSpace: 'nowrap',
   opacity: 0,
-  marginLeft: '50px',
-  marginRight: '50px',
+  marginLeft: '40px',
+  marginRight: '40px',
   fontWeight: 'normal',
 };
 

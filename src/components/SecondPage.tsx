@@ -125,10 +125,23 @@ const HorizontalScrollSection = () => {
           filter: blur(2px);
         }
       `}</style>
+
       <div
         ref={containerRef}
-        style={{ overflow: 'hidden', height: '100vh', display: 'flex', alignItems: 'center' }}
+        style={{ position: 'relative', overflow: 'hidden', height: '100vh', display: 'flex', alignItems: 'center' }}
       >
+        {/* Top-left "Projects" text */}
+        <div style={{
+          position: 'absolute',
+          top: '40px',
+          left: '50px',
+          fontFamily: "'DM Mono', monospace",
+          fontSize: '14px',
+          color: 'white',
+        }}>
+          ◍ Projects
+        </div>
+
         <div
           ref={horizontalRef}
           style={{ display: 'flex', width: '300%', transform: 'translateX(10%)' }}
