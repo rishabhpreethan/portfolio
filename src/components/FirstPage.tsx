@@ -166,7 +166,6 @@ const FirstPage: React.FC = () => {
               trigger: element,
               start: 'top center',
               end: '+=200',
-              scrub: 2,
               toggleActions: 'play none none reverse',
             }
           });
