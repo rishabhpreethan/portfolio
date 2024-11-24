@@ -127,6 +127,21 @@ const FirstPage: React.FC = () => {
       gsap.fromTo(rightText, { x: '50%', opacity: 0 }, { x: '0%', opacity: 1, duration: 4, ease: 'power4.out' });
 
       sequentialFlicker(leftText, rightText);
+
+      // Add scroll trigger animations for the name
+      ScrollTrigger.create({
+        trigger: leftText,
+        start: 'top top',
+        end: '+=200',
+        scrub: 1.5,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          gsap.set([leftText, rightText], {
+            y: progress * 100,
+            opacity: 1 - progress
+          });
+        }
+      });
     }
 
     // Initial corner text animations with scroll setup callback
@@ -158,15 +173,17 @@ const FirstPage: React.FC = () => {
       
       cornerTexts.forEach((element) => {
         if (element) {
-          gsap.to(element, {
-            y: '-25px',
-            opacity: 0,
-            ease: 'power2.inOut',
-            scrollTrigger: {
-              trigger: element,
-              start: 'top center',
-              end: '+=200',
-              toggleActions: 'play none none reverse',
+          ScrollTrigger.create({
+            trigger: element,
+            start: 'top center',
+            end: '+=200',
+            scrub: 1.5,
+            onUpdate: (self) => {
+              const progress = self.progress;
+              gsap.set(element, {
+                y: progress * 25,
+                opacity: 1 - progress
+              });
             }
           });
         }
