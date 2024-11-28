@@ -8,12 +8,34 @@ gsap.registerPlugin(ScrollTrigger);
 const HorizontalScrollSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const horizontalRef = useRef<HTMLDivElement>(null);
+  const projectsTextRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<HTMLDivElement[]>([]); // Array to hold card references
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const container = containerRef.current;
     const horizontal = horizontalRef.current;
+    const projectsText = projectsTextRef.current;
+
+    // Initial setup for projects text
+    if (projectsText) {
+      gsap.set(projectsText, { opacity: 0, y: 20 });
+      
+      // Create scroll trigger for projects text
+      ScrollTrigger.create({
+        trigger: container,
+        start: "top 40%",
+        end: "top 10%",
+        scrub: 1.5,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          gsap.set(projectsText, {
+            opacity: progress,
+            y: 20 * (1 - progress)
+          });
+        }
+      });
+    }
 
     // Create a container animation and assign it an ID for referencing
     const containerAnimation = gsap.to(horizontal, {
@@ -131,14 +153,17 @@ const HorizontalScrollSection = () => {
         style={{ position: 'relative', overflow: 'hidden', height: '100vh', display: 'flex', alignItems: 'center' }}
       >
         {/* Top-left "Projects" text */}
-        <div style={{
-          position: 'absolute',
-          top: '40px',
-          left: '50px',
-          fontFamily: "'DM Mono', monospace",
-          fontSize: '14px',
-          color: 'white',
-        }}>
+        <div 
+          ref={projectsTextRef}
+          style={{
+            position: 'absolute',
+            top: '40px',
+            left: '50px',
+            fontFamily: "'DM Mono', monospace",
+            fontSize: '14px',
+            color: 'white',
+          }}
+        >
           ◍ Projects
         </div>
 

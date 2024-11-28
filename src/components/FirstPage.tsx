@@ -133,7 +133,7 @@ const FirstPage: React.FC = () => {
         trigger: leftText,
         start: 'top top',
         end: '+=200',
-        scrub: 1.5,
+        scrub: 4,
         onUpdate: (self) => {
           const progress = self.progress;
           gsap.set([leftText, rightText], {
@@ -177,7 +177,7 @@ const FirstPage: React.FC = () => {
             trigger: element,
             start: 'top center',
             end: '+=200',
-            scrub: 1.5,
+            scrub: 4,
             onUpdate: (self) => {
               const progress = self.progress;
               gsap.set(element, {
